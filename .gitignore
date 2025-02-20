@@ -1,13 +1,12 @@
-# Ignore everything
+# Ignore everything by default
 *
 
-# But not these files
+# Allow only these specific files
 !archive-locations.php
 !archive-palveluntarjoajat.php
 !archive-palvelut.php
 !custom.js
 !functions.php
-!malli.php
 !paikkakunnat.json
 !search-palveluntarjoajat.php
 !single-palveluntarjoajat.php
