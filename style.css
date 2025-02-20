@@ -1,0 +1,221 @@
+/*
+Theme Name: Astra Child
+Theme URI: https://kodille.com/
+Description: Lapsiteema Astra-teemalle.
+Author: Sinun Nimesi
+Author URI: https://kodille.com/
+Template: astra
+Version: 1.0.0
+*/
+
+/* --- Mukautetut tyylit --- */
+
+/* Palvelukorttien ulkoasu arkistosivulla */
+.service-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.service-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.service-card h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.service-card h2 a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.service-card h2 a:hover {
+    text-decoration: underline;
+}
+
+.service-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Palvelun yksittäinen sivu (single-palvelut.php) */
+.single-service {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+.single-service h1 {
+    font-size: 2.5rem;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.single-service p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #444;
+}
+
+.single-service .details {
+    margin-bottom: 20px;
+}
+
+.single-service .details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Lomakkeen tyylit arkistosivulla */
+form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+form label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Hakukentän tyylit */
+.search-bar {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.search-bar form {
+    display: inline-flex;
+    align-items: center;
+}
+
+.search-bar input {
+    flex: 1;
+    max-width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* Lajittelun valinnan tyylit */
+.sort-bar {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.sort-bar label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.sort-bar select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Sivutuksen tyylit */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination .page-numbers {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 5px;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.pagination .current {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.pagination .page-numbers:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Responsiiviset tyylit */
+@media screen and (max-width: 768px) {
+    .service-card {
+        padding: 15px;
+    }
+
+    .single-service {
+        margin: 10px 0;
+    }
+
+    .form {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .search-bar input {
+        max-width: 100%;
+        flex: none;
+    }
+
+    .search-bar button {
+        width: 100%;
+    }
+
+    .sort-bar {
+        text-align: center;
+    }
+}
