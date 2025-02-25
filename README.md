@@ -12,3 +12,6 @@ WordPress-teema kodin ja kiinteistön palveluntarjoajien hakuun.
 
 ## Viimeisimmät muutokset
 - 25.2.2025: Korjattu paikkakuntahaku lisäämällä `hae_paikkakunnat`-toiminto
+git add .
+git commit -m "Korjattu paikkakuntahaku lisäämällä hae_paikkakunnat functions.php:hen"
+git push origin main
