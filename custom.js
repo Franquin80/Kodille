@@ -1,51 +1,66 @@
+// custom.js
 jQuery(document).ready(function($) {
-    // Päivitä paikkakunnat, kun maakunta muuttuu
-    $('#maakunta').change(function() {
-        var maakunta_id = $(this).val();
-        if (maakunta_id) {
-            $.get('/wp-json/wp/v2/sijainnit?parent=' + maakunta_id, function(data) {
-                var options = '<option value="">Kaikki paikkakunnat</option>';
-                $.each(data, function(index, value) {
-                    options += '<option value="' + value.id + '">' + value.name + '</option>';
-                });
-                $('#paikkakunta').html(options).prop('disabled', false);
-            });
-        } else {
-            $('#paikkakunta').html('<option value="">Kaikki paikkakunnat</option>').prop('disabled', true);
-        }
-        $('#palvelukategoria, #service').html('<option value="">Kaikki</option>').prop('disabled', true);
-    });
-
-    // Päivitä palvelukategoriat, kun paikkakunta muuttuu
+    // Päivitä palvelukategoriat (jos haluat REST API:ta muualla)
     $('#paikkakunta').change(function() {
         var paikkakunta_id = $(this).val();
         if (paikkakunta_id) {
-            $.get('/wp-json/wp/v2/palvelukategoriat', function(data) {
-                var options = '<option value="">Kaikki palvelukategoriat</option>';
-                $.each(data, function(index, value) {
-                    options += '<option value="' + value.id + '">' + value.name + '</option>';
+            $('#palvelukategoria').html('<option value="">Ladataan...</option>');
+            $.get(ajax_params.rest_url + 'wp/v2/palvelukategoriat')
+                .done(function(data) {
+                    var options = '<option value="">Kaikki palvelukategoriat</option>';
+                    if (data && data.length > 0) {
+                        $.each(data, function(index, value) {
+                            options += '<option value="' + value.id + '">' + value.name + '</option>';
+                        });
+                    } else {
+                        options = '<option value="">Ei palvelukategorioita</option>';
+                    }
+                    $('#palvelukategoria').html(options).prop('disabled', false);
+                })
+                .fail(function() {
+                    $('#palvelukategoria').html('<option value="">Haku epäonnistui</option>');
                 });
-                $('#palvelukategoria').html(options).prop('disabled', false);
-            });
         } else {
             $('#palvelukategoria').html('<option value="">Kaikki palvelukategoriat</option>').prop('disabled', true);
         }
         $('#service').html('<option value="">Kaikki palvelut</option>').prop('disabled', true);
     });
 
-    // Päivitä palvelut, kun palvelukategoria muuttuu
+    // Päivitä palvelut
     $('#palvelukategoria').change(function() {
         var palvelukategoria_id = $(this).val();
         if (palvelukategoria_id) {
-            $.get('/wp-json/wp/v2/palvelut?palvelukategoriat=' + palvelukategoria_id, function(data) {
-                var options = '<option value="">Kaikki palvelut</option>';
-                $.each(data, function(index, value) {
-                    options += '<option value="' + value.id + '">' + value.title.rendered + '</option>';
+            $('#service').html('<option value="">Ladataan...</option>');
+            $.get(ajax_params.rest_url + 'wp/v2/palvelut?palvelukategoriat=' + palvelukategoria_id)
+                .done(function(data) {
+                    var options = '<option value="">Kaikki palvelut</option>';
+                    if (data && data.length > 0) {
+                        $.each(data, function(index, value) {
+                            options += '<option value="' + value.id + '">' + value.title.rendered + '</option>';
+                        });
+                    } else {
+                        options = '<option value="">Ei palveluita</option>';
+                    }
+                    $('#service').html(options).prop('disabled', false);
+                })
+                .fail(function() {
+                    $('#service').html('<option value="">Haku epäonnistui</option>');
                 });
-                $('#service').html(options).prop('disabled', false);
-            });
         } else {
             $('#service').html('<option value="">Kaikki palvelut</option>').prop('disabled', true);
         }
+    });
+
+    // Hae palveluntarjoajat (jos käytät REST API:ta muualla)
+    $('#provider-search-form').submit(function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.get(ajax_params.ajax_url + '?action=hae_palveluntarjoajat&' + formData)
+            .done(function(data) {
+                $('#provider-results').html(data).show();
+            })
+            .fail(function() {
+                $('#provider-results').html('<p>Haku epäonnistui, yritä uudelleen.</p>').show();
+            });
     });
 });
