@@ -8,36 +8,118 @@ Template: astra
 Version: 1.0.0
 */
 
-/* --- Mukautetut tyylit --- */
+/* ==========================
+   CSS-MUUTTUJAT
+   ========================== */
+:root {
+    --primary-color: #007bff;
+    --primary-hover-color: #0056b3;
+    --text-color: #333;
+    --background-color: #f9f9f9;
+    --font-family: 'Arial', sans-serif;
+}
 
-/* Palvelukorttien ulkoasu arkistosivulla */
+/* ==========================
+   YLEISET TYYLIT
+   ========================== */
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    background-color: #fff;
+}
+
+/* ==========================
+   LINKIT JA PAINIKKEET
+   ========================== */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-hover-color);
+}
+
+button, .btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover, .btn:hover {
+    background-color: var(--primary-hover-color);
+    transform: scale(1.05);
+}
+
+/* ==========================
+   NAVIGOINTIVALIKKO
+   ========================== */
+.navbar {
+    background-color: var(--primary-color);
+    padding: 10px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: var(--primary-hover-color);
+}
+
+/* ==========================
+   PALVELUKORTIT ARKISTOSIVULLA
+   ========================== */
 .service-card {
     border: 1px solid #ddd;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;
-    background-color: #f9f9f9;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    background-color: var(--background-color);
+    transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .service-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
 }
 
 .service-card h2 {
     font-size: 1.5rem;
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 10px;
 }
 
 .service-card h2 a {
     text-decoration: none;
-    color: #007bff;
+    color: var(--primary-color);
 }
 
 .service-card h2 a:hover {
     text-decoration: underline;
+    color: var(--primary-hover-color);
 }
 
 .service-card p {
@@ -45,9 +127,11 @@ Version: 1.0.0
     line-height: 1.6;
 }
 
-/* Palvelun yksittäinen sivu (single-palvelut.php) */
+/* ==========================
+   YKSITTÄISEN PALVELUN SIVU
+   ========================== */
 .single-service {
-    background-color: #f9f9f9;
+    background-color: var(--background-color);
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #ddd;
@@ -75,43 +159,9 @@ Version: 1.0.0
     color: #555;
 }
 
-/* Lomakkeen tyylit arkistosivulla */
-form {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
-
-form label {
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-form input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-form button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-form button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-/* Hakukentän tyylit */
+/* ==========================
+   HAKUKENTÄN JA LOMAKKEEN TYYLIT
+   ========================== */
 .search-bar {
     margin-bottom: 20px;
     text-align: center;
@@ -120,6 +170,7 @@ form button:hover {
 .search-bar form {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
 }
 
 .search-bar input {
@@ -134,7 +185,7 @@ form button:hover {
 .search-bar button {
     padding: 10px 20px;
     font-size: 1rem;
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 0 4px 4px 0;
@@ -143,10 +194,12 @@ form button:hover {
 }
 
 .search-bar button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover-color);
 }
 
-/* Lajittelun valinnan tyylit */
+/* ==========================
+   LAJITTELUN VALINNAN TYYLIT
+   ========================== */
 .sort-bar {
     margin-bottom: 20px;
     text-align: right;
@@ -164,7 +217,9 @@ form button:hover {
     font-size: 1rem;
 }
 
-/* Sivutuksen tyylit */
+/* ==========================
+   SIVUTUKSEN TYYLIT
+   ========================== */
 .pagination {
     text-align: center;
     margin-top: 20px;
@@ -174,48 +229,110 @@ form button:hover {
     display: inline-block;
     padding: 8px 12px;
     margin: 0 5px;
-    color: #007bff;
+    color: var(--primary-color);
     border: 1px solid #ddd;
     border-radius: 4px;
     text-decoration: none;
 }
 
 .pagination .current {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
     font-weight: bold;
 }
 
 .pagination .page-numbers:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover-color);
     color: white;
 }
 
-/* Responsiiviset tyylit */
+/* ==========================
+   RESPONSIVISET TYYLIT
+   ========================== */
 @media screen and (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
     .service-card {
         padding: 15px;
+        margin-bottom: 15px;
     }
 
-    .single-service {
-        margin: 10px 0;
-    }
-
-    .form {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .search-bar input {
-        max-width: 100%;
-        flex: none;
-    }
-
+    .search-bar input,
     .search-bar button {
         width: 100%;
     }
 
+    .pagination {
+        margin-top: 15px;
+    }
+
     .sort-bar {
         text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar li {
+        margin: 10px 0;
     }
 }
+/* Lisää uudet tyylit tiedoston loppuun */
+.hero-section {
+    padding: 60px 20px;
+    text-align: center;
+    color: #fff;
+}
+.hero-section h1 { font-size: 2.5rem; margin-bottom: 20px; }
+.hero-section p { font-size: 1.2rem; margin-bottom: 30px; }
+.hero-search { margin-top: 20px; }
+.hero-select { padding: 10px; width: 200px; }
+.cta-button {
+    background: #0073aa;
+    color: #fff;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+.about-section { padding: 40px 20px; text-align: center; }
+.about-section h2 { font-size: 2rem; margin-bottom: 20px; }
+.about-section p { max-width: 800px; margin: 0 auto; }
+.categories-section { padding: 40px 20px; background: #f9f9f9; }
+.categories-section h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; }
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.category-card {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+.category-card a { color: #0073aa; text-decoration: none; }
+.news-section { padding: 40px 20px; text-align: center; }
+.news-section h2 { font-size: 2rem; margin-bottom: 20px; }
+.news-container { max-width: 800px; margin: 0 auto; }
+.news-list { list-style: none; padding: 0; }
+.news-list li { margin-bottom: 15px; }
+.news-list a { color: #0073aa; font-size: 1.2rem; text-decoration: none; }
+.news-list p { font-size: 0.9rem; }
+.site-footer {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+.site-footer a { color: #fff; margin: 0 15px; text-decoration: none; }
