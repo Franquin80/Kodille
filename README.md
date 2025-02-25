@@ -2,14 +2,13 @@
 WordPress-teema kodin ja kiinteistön palveluntarjoajien hakuun.
 
 ## Ominaisuudet
-- Dynaaminen hakulomake (maakunta, paikkakunta, palvelut)
+- Dynaaminen hakulomake: maakunta, paikkakunta, palvelukategoria, palvelu
 - Etusivu palvelukategorioilla ja ajankohtaisilla artikkeleilla
 
 ## Asennus
-1. Kloonaa repositorio: `git clone https://github.com/Franquin80/Kodille`
-2. Kopioi teema WordPressin `wp-content/themes/`-hakemistoon
-3. Aktivoi teema hallintapaneelista
+1. Kloonaa: `git clone https://github.com/Franquin80/Kodille`
+2. Kopioi `wp-content/themes/`
+3. Aktivoi teema
 
-## TODO
-- Korjaa paikkakuntahaku
-- Lisää hakutulosten näyttö
+## Viimeisimmät muutokset
+- 25.2.2025: Korjattu paikkakuntahaku lisäämällä `hae_paikkakunnat`-toiminto
