@@ -6,7 +6,7 @@
 </div>
 <div class="mainos">
     <h2>Mainos: Oma Yritys Oy</h2>
-    <p>5 ★ - Ota yhteyttä: <a href="#">info@omayritys.fi</a></p>
+    <p>5 ★ - Ota yhteyttä: <a href="#">info@mainosyritys.fi</a></p>
 </div>
 <div id="palveluntarjoajat">
     <h2>5 suosituinta palveluntarjoajaa alueellasi</h2>
