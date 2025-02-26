@@ -63,4 +63,17 @@ jQuery(document).ready(function($) {
                 $('#provider-results').html('<p>Haku epäonnistui, yritä uudelleen.</p>').show();
             });
     });
+});document.addEventListener("DOMContentLoaded", function () {
+    fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=60.1699,24.9384&radius=5000&keyword=house%20painting&key=${GOOGLE_MAPS_API_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+            const top5 = data.results.slice(0, 5);
+            top5.forEach(place => {
+                document.getElementById('palveluntarjoajat').innerHTML += `
+                    <div>${place.name} - ${place.rating} ★</div>
+                `;
+            });
+        })
+        .catch(error => console.error('Virhe API-haussa:', error));
 });
+
