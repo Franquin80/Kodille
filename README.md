@@ -3,10 +3,10 @@
 Kodille on suomalainen WordPress-pohjainen palvelu, joka yhdistää asiakkaita ja paikallisia palveluntarjoajia (esim. maalarit, rännien puhdistajat) arvostelupohjaisella alustalla. Projekti hyödyntää CPT UI:ta, ACF:ää ja tulevaisuudessa Google Maps API:ta reaaliaikaiseen dataan.
 
 ## Projektin kuvaus
-- **Tavoite**: Tarjota helppo tapa löytää luotettavia palveluntarjoajia paikkakunnittain, keskittyen aluksi matalan kilpailun avainsanoihin (esim. "rännien puhdistus Helsinki").
+- **Tavoite**: Tarjota helppo tapa löytää luotettavia palveluntarjoajia paikkakunnittain, keskittyen aluksi matalan kilpailun avainsanoihin (esim. "rännien puhdistus Paikkakunta").
 - **Ominaisuudet**:
   - Näytä 5 parasta palveluntarjoajaa per palvelu/paikkakunta Google-arvosteluilla.
-  - Mainospaikat listan kärjessä (aluksi omistajan yritykset).
+  - Mainospaikat listan kärjessä (aluksi mainos yritykset).
   - SEO-ystävälliset URLit ja orgaaninen liikenne.
 - **Teknologia**: WordPress, CPT UI, ACF, (tulossa: Google Maps API).
 
@@ -32,6 +32,6 @@ Nykyinen tila
     ✅ WordPress-teema toiminnassa: Perusrakenne valmis.
     ✅ CPT UI ja ACF määritelty: Palveluntarjoajat ja kentät olemassa (paikallisesti).
     ✅ Reaaliaikainen sivu: Toimii manuaalisella datalla.
-    ☐ Google Maps API: Integraatio puuttuu.
-    ☐ Mainospaikat: Logiikka puuttuu frontendistä.
+    ☐ Google Maps API: Integraatio puuttuu. Aloitettu
+    ☐ Mainospaikat: Logiikka puuttuu frontendistä. Tehty
     ☐ SEO-alasivut: Suunnitelma olemassa, ei vielä toteutettu.
