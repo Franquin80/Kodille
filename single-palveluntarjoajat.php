@@ -1,5 +1,16 @@
 <?php get_header(); ?>
 
+
+<div id="palveluntarjoajat">
+    <h2>5 suosituinta palveluntarjoajaa alueellasi</h2>
+</div>
+<div class="mainos">
+    <h2>Mainos: Oma Yritys Oy</h2>
+    <p>5 ★ - Ota yhteyttä: <a href="#">info@omayritys.fi</a></p>
+</div>
+<div id="palveluntarjoajat">
+    <h2>5 suosituinta palveluntarjoajaa alueellasi</h2>
+</div>
 <div class="provider-single" style="padding: 40px; font-family: Arial, sans-serif;">
     <h1 style="text-align: center; font-size: 2.5rem;">Palveluntarjoaja: <?php the_title(); ?></h1>
 
