@@ -117,4 +117,13 @@ function hae_palveluntarjoajat() {
 }
 add_action('wp_ajax_hae_palveluntarjoajat', 'hae_palveluntarjoajat');
 add_action('wp_ajax_nopriv_hae_palveluntarjoajat', 'hae_palveluntarjoajat');
+// Lisää Google Maps API-avain WordPressiin
+define('GOOGLE_MAPS_API_KEY', 'sinun-api-avaimesi');
+
+function kodille_enqueue_scripts() {
+    wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?key=' . GOOGLE_MAPS_API_KEY . '&libraries=places', [], null, true);
+    wp_enqueue_script('kodille-custom', get_template_directory_uri() . '/js/custom.js', ['google-maps'], '1.0', true);
+}
+add_action('wp_enqueue_scripts', 'kodille_enqueue_scripts');
+
 ?>
