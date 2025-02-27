@@ -29,8 +29,19 @@ Tarjota helppo tapa löytää luotettavia palveluntarjoajia paikkakunnittain, ke
 - Paikallinen kehitysympäristö (esim. LocalWP) tai palvelin
 
 ### Tiedostorakenne
-
-/Kodille ├── /wp-content │ ├── /themes │ │ ├── /Kodille │ │ │ ├── functions.php # Rewrite-säännöt │ │ │ ├── single-opas.php # Opas-CPT:n näyttötemplate │ │ │ ├── single-palvelut.php # Palvelut-CPT:n template │ │ │ ├── single-palveluntarjoajat.php # Palveluntarjoajat-CPT:n template │ │ │ ├── style.css # Teeman tyylit │ │ │ ├── index.php # Hakulomake (tulossa) │ │ │ ├── acf-opas.json # ACF-kentät opas-CPT:lle │ │ │ └── paikkakunnat.json # Suomen paikkakunnat ja maakunnat ├── README.md # Tämä tiedosto
+/Kodille
+├── /wp-content
+│   ├── /themes
+│   │   ├── /Kodille
+│   │   │   ├── functions.php          # Rewrite-säännöt
+│   │   │   ├── single-opas.php        # Opas-CPT:n näyttötemplate
+│   │   │   ├── single-palvelut.php    # Palvelut-CPT:n template
+│   │   │   ├── single-palveluntarjoajat.php  # Palveluntarjoajat-CPT:n template
+│   │   │   ├── style.css              # Teeman tyylit
+│   │   │   ├── index.php              # Hakulomake (tulossa)
+│   │   │   ├── acf-opas.json          # ACF-kentät opas-CPT:lle
+│   │   │   └── paikkakunnat.json      # Suomen paikkakunnat ja maakunnat
+├── README.md  # Tämä tiedosto
 
 
 ## Nykyinen tila (27.2.2025)
