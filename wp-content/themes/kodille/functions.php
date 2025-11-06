@@ -16,13 +16,12 @@ global $pagenow;
 // Ladataan tiedostot VAIN, JOS emme ole kirjautumis- tai salasanasivulla
 if ($pagenow !== 'wp-login.php') {
 
-    // TÄMÄ ON OIKEA TIEDOSTO (Shortcode tarvitsee sitä)
-    require_once get_stylesheet_directory() . '/includes/palveluntarjoaja-tallenna.php';
+// TÄMÄ LADATAAN AINA (Shortcode tarvitsee sitä)
+require_once get_stylesheet_directory() . '/includes/google-places-helpers.php';
 
-    // TÄMÄ LADATAAN VAIN ADMIN-PUOLELLA
-    if (is_admin()) {
-        require_once get_stylesheet_directory() . '/includes/palveluntarjoajahaku.php';
-    }
+// TÄMÄ LADATAAN VAIN ADMIN-PUOLELLA
+if (is_admin()) {
+    require_once get_stylesheet_directory() . '/includes/palveluntarjoajahaku.php';  // Massatuonti (vain admin)
 }
 
 /* -------------------------------------------------
