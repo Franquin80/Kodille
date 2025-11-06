@@ -189,6 +189,221 @@ add_action('wp_footer', function () {
     echo 'Post ID: ' . intval($post->ID) . '<br>';
     echo '</div>';
 });
+<?php get_header(); 
+
+// Tunnista oikea sijainti-taxonomia
+$location_taxonomy = taxonomy_exists('toiminta-alueet') ? 'toiminta-alueet' : 'sijainnit';
+?>
+
+<div class="provider-archive" style="padding: 40px; font-family: Arial, sans-serif;">
+    <h1 style="text-align: center; font-size: 2.5rem; margin-bottom: 30px;">Etsi palveluntarjoajia</h1>
+
+    <!-- Hakulomake -->
+    <form method="get" action="" id="provider-search-form">
+        <label for="maakunta">Valitse maakunta:</label>
+        <select name="maakunta" id="maakunta" style="width: 100%; padding: 10px; margin-bottom: 20px;">
+            <option value="">Valitse maakunta</option>
+            <?php
+            $maakunnat = get_terms(array(
+                'taxonomy'   => $location_taxonomy,
+                'parent'     => 0,
+                'hide_empty' => false,
+            ));
+            foreach ($maakunnat as $maakunta) {
+                $selected = (isset($_GET['maakunta']) && $_GET['maakunta'] == $maakunta->term_id) ? 'selected' : '';
+                echo '<option value="' . esc_attr($maakunta->term_id) . '" ' . $selected . '>' . esc_html($maakunta->name) . '</option>';
+            }
+            ?>
+        </select>
+
+        <label for="paikkakunta">Valitse paikkakunta:</label>
+        <select name="paikkakunta" id="paikkakunta" style="width: 100%; padding: 10px; margin-bottom: 20px;" <?php echo empty($_GET['maakunta']) ? 'disabled' : ''; ?>>
+            <option value="">Valitse ensin maakunta</option>
+            <?php
+            // Jos maakunta on valittu, näytä sen paikkakunnat
+            if (!empty($_GET['maakunta'])) {
+                $paikkakunnat = get_terms(array(
+                    'taxonomy'   => $location_taxonomy,
+                    'parent'     => intval($_GET['maakunta']),
+                    'hide_empty' => false,
+                ));
+                foreach ($paikkakunnat as $paikkakunta) {
+                    $selected = (isset($_GET['paikkakunta']) && $_GET['paikkakunta'] == $paikkakunta->term_id) ? 'selected' : '';
+                    echo '<option value="' . esc_attr($paikkakunta->term_id) . '" ' . $selected . '>' . esc_html($paikkakunta->name) . '</option>';
+                }
+            }
+            ?>
+        </select>
+
+        <label for="palvelukategoria">Valitse palvelukategoria:</label>
+        <select name="palvelukategoria" id="palvelukategoria" style="width: 100%; padding: 10px; margin-bottom: 20px;">
+            <option value="">Valitse kategoria</option>
+            <?php
+            $palvelukategoriat = get_terms(array(
+                'taxonomy'   => 'palvelukategoriat',
+                'parent'     => 0,
+                'hide_empty' => false,
+            ));
+            foreach ($palvelukategoriat as $kategoria) {
+                $selected = (isset($_GET['palvelukategoria']) && $_GET['palvelukategoria'] == $kategoria->term_id) ? 'selected' : '';
+                echo '<option value="' . esc_attr($kategoria->term_id) . '" ' . $selected . '>' . esc_html($kategoria->name) . '</option>';
+            }
+            ?>
+        </select>
+
+        <label for="service">Valitse palvelu:</label>
+        <select name="service" id="service" style="width: 100%; padding: 10px; margin-bottom: 20px;" <?php echo empty($_GET['palvelukategoria']) ? 'disabled' : ''; ?>>
+            <option value="">Valitse ensin kategoria</option>
+            <?php
+            // Jos kategoria on valittu, näytä sen palvelut
+            if (!empty($_GET['palvelukategoria'])) {
+                $palvelut = get_terms(array(
+                    'taxonomy'   => 'palvelukategoriat',
+                    'parent'     => intval($_GET['palvelukategoria']),
+                    'hide_empty' => false,
+                ));
+                foreach ($palvelut as $palvelu) {
+                    $selected = (isset($_GET['service']) && $_GET['service'] == $palvelu->term_id) ? 'selected' : '';
+                    echo '<option value="' . esc_attr($palvelu->term_id) . '" ' . $selected . '>' . esc_html($palvelu->name) . '</option>';
+                }
+            }
+            ?>
+        </select>
+
+        <button type="submit" style="padding: 10px 20px; background-color: #0073aa; color: white; border: none; border-radius: 5px;">Hae</button>
+    </form>
+
+    <!-- Tulosten näyttö -->
+    <div id="provider-results" style="margin-top: 40px;">
+        <?php
+        if (!empty($_GET['maakunta']) || !empty($_GET['paikkakunta']) || !empty($_GET['palvelukategoria']) || !empty($_GET['service'])) {
+            
+            $tax_query = array('relation' => 'AND');
+            
+            // Sijainti
+            if (!empty($_GET['paikkakunta'])) {
+                $tax_query[] = array(
+                    'taxonomy' => $location_taxonomy,
+                    'field'    => 'term_id',
+                    'terms'    => intval($_GET['paikkakunta']),
+                );
+            } elseif (!empty($_GET['maakunta'])) {
+                // Hae kaikki maakunnan paikkakunnat
+                $child_terms = get_term_children(intval($_GET['maakunta']), $location_taxonomy);
+                if (!empty($child_terms)) {
+                    $tax_query[] = array(
+                        'taxonomy' => $location_taxonomy,
+                        'field'    => 'term_id',
+                        'terms'    => $child_terms,
+                        'operator' => 'IN',
+                    );
+                }
+            }
+            
+            // Palvelu
+            if (!empty($_GET['service'])) {
+                $tax_query[] = array(
+                    'taxonomy' => 'palvelukategoriat',
+                    'field'    => 'term_id',
+                    'terms'    => intval($_GET['service']),
+                );
+            } elseif (!empty($_GET['palvelukategoria'])) {
+                // Hae kaikki kategorian palvelut
+                $child_terms = get_term_children(intval($_GET['palvelukategoria']), 'palvelukategoriat');
+                if (!empty($child_terms)) {
+                    $tax_query[] = array(
+                        'taxonomy' => 'palvelukategoriat',
+                        'field'    => 'term_id',
+                        'terms'    => $child_terms,
+                        'operator' => 'IN',
+                    );
+                }
+            }
+
+            $query_args = array(
+                'post_type'      => 'palveluntarjoajat',
+                'posts_per_page' => -1,
+                'tax_query'      => $tax_query,
+            );
+
+            $provider_query = new WP_Query($query_args);
+
+            if ($provider_query->have_posts()) {
+                echo '<h2>Löytyi ' . $provider_query->found_posts . ' palveluntarjoajaa</h2>';
+                echo '<ul style="list-style: none; padding: 0;">';
+                while ($provider_query->have_posts()) {
+                    $provider_query->the_post();
+                    echo '<li style="padding: 15px; border-bottom: 1px solid #ddd;">';
+                    echo '<h3 style="margin: 0;"><a href="' . get_permalink() . '" style="text-decoration: none; color: #0073aa;">' . get_the_title() . '</a></h3>';
+                    
+                    if ($paikkakunta_field = get_field('paikkakunta')) {
+                        echo '<small>' . esc_html($paikkakunta_field) . '</small><br>';
+                    }
+                    
+                    if ($phone = get_field('puhelinnumero')) {
+                        echo '<strong>Puh:</strong> <a href="tel:' . esc_attr($phone) . '">' . esc_html($phone) . '</a><br>';
+                    }
+                    
+                    if ($rating = get_field('arvostelut')) {
+                        echo '<strong>Arvostelut:</strong> ' . esc_html($rating) . ' / 5 ⭐';
+                    }
+                    
+                    echo '</li>';
+                }
+                echo '</ul>';
+                wp_reset_postdata();
+            } else {
+                echo '<p>Ei tuloksia valituilla hakuehdoilla.</p>';
+            }
+        }
+        ?>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const maakuntaSelect = document.getElementById('maakunta');
+    const paikkakuntaSelect = document.getElementById('paikkakunta');
+    const palvelukategoriaSelect = document.getElementById('palvelukategoria');
+    const serviceSelect = document.getElementById('service');
+    const ajaxUrl = '<?php echo admin_url('admin-ajax.php'); ?>';
+
+    function fetchOptions(url, targetSelect, emptyMessage) {
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                targetSelect.innerHTML = data || '<option value="">' + emptyMessage + '</option>';
+                targetSelect.disabled = false;
+            })
+            .catch(error => {
+                console.error('Virhe haussa:', error);
+                targetSelect.innerHTML = '<option value="">Virhe ladattaessa</option>';
+            });
+    }
+
+    maakuntaSelect.addEventListener('change', function() {
+        let maakuntaID = this.value;
+        if (maakuntaID === "") {
+            paikkakuntaSelect.innerHTML = '<option value="">Valitse ensin maakunta</option>';
+            paikkakuntaSelect.disabled = true;
+        } else {
+            fetchOptions(ajaxUrl + '?action=hae_paikkakunnat&maakunta=' + encodeURIComponent(maakuntaID), paikkakuntaSelect, 'Ei paikkakuntia');
+        }
+    });
+
+    palvelukategoriaSelect.addEventListener('change', function() {
+        let kategoriaID = this.value;
+        if (kategoriaID === "") {
+            serviceSelect.innerHTML = '<option value="">Valitse ensin kategoria</option>';
+            serviceSelect.disabled = true;
+        } else {
+            fetchOptions(ajaxUrl + '?action=hae_palvelut&palvelukategoria=' + encodeURIComponent(kategoriaID), serviceSelect, 'Ei palveluita');
+        }
+    });
+});
+</script>
+
+<?php get_footer();
 
 /* -------------------------------------------------
  * 5) RSS pois
