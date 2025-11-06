@@ -8,18 +8,19 @@
  * 0) Ladataan omat funktiot (KORJATTU)
  * ------------------------------------------------- */
 
+/* -------------------------------------------------
+ * 0) Ladataan omat funktiot (KORJATTU JA OIKEA VERSIO)
+ * ------------------------------------------------- */
+
 global $pagenow;
 // Ladataan tiedostot VAIN, JOS emme ole kirjautumis- tai salasanasivulla
-// Tämä korjaa "kriittisen virheen" /forgot/ -sivulla
 if ($pagenow !== 'wp-login.php') {
 
-    // TÄMÄ LADATAAN AINA (Shortcode tarvitsee sitä)
-    // ✅ KORJATTU:
-    require_once get_stylesheet_directory() . '/includes/google-places-helpers.php';
+    // TÄMÄ ON OIKEA TIEDOSTO (Shortcode tarvitsee sitä)
+    require_once get_stylesheet_directory() . '/includes/palveluntarjoaja-tallenna.php';
 
     // TÄMÄ LADATAAN VAIN ADMIN-PUOLELLA
     if (is_admin()) {
-        // Massatuonti (vain admin)
         require_once get_stylesheet_directory() . '/includes/palveluntarjoajahaku.php';
     }
 }
