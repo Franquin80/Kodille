@@ -32,15 +32,22 @@ Tarjota helppo tapa löytää luotettavia palveluntarjoajia paikkakunnittain, ke
 /Kodille
 ├── /wp-content
 │   ├── /themes
-│   │   ├── /Kodille
-│   │   │   ├── functions.php          # Rewrite-säännöt
-│   │   │   ├── single-opas.php        # Opas-CPT:n näyttötemplate
-│   │   │   ├── single-palvelut.php    # Palvelut-CPT:n template
-│   │   │   ├── single-palveluntarjoajat.php  # Palveluntarjoajat-CPT:n template
-│   │   │   ├── style.css              # Teeman tyylit
-│   │   │   ├── index.php              # Hakulomake (tulossa)
-│   │   │   ├── acf-opas.json          # ACF-kentät opas-CPT:lle
-│   │   │   └── paikkakunnat.json      # Suomen paikkakunnat ja maakunnat
+│   │   └── /kodille
+│   │       ├── functions.php                  # Teeman keskeiset hookit ja API-integraatio
+│   │       ├── archive-*.php                  # CPT-arkistot (palvelut, palveluntarjoajat, sijainnit)
+│   │       ├── front-page.php                 # Etusivun template
+│   │       ├── single-*.php                   # CPT-yksittäiset näkymät
+│   │       ├── style.css                      # Teeman tyylit
+│   │       ├── paikkakunnat.json              # Suomen paikkakunnat ja maakunnat
+│   │       ├── acf-fields.php                 # Vientitiedosto ACF-kentistä
+│   │       ├── /includes
+│   │       │   ├── google-places-helpers.php  # Google Places -apufunktiot
+│   │       │   └── palveluntarjoajahaku.php   # Admin-työkalu Google-hakuihin
+│   │       ├── /js
+│   │       │   └── custom.js                  # Hakulomakkeen dynaaminen logiikka
+│   │       └── /templates
+│   │           ├── etusivu.php                # Etusivun HTML-malli
+│   │           └── malli.php                  # Esimerkkipohja jatkokehitykselle
 ├── README.md  # Tämä tiedosto
 
 

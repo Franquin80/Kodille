@@ -1,10 +1,26 @@
 jQuery(document).ready(function($) {
+    var settings = window.kodilleAjax || {};
+    var restBase = settings.rest_url || '';
+
+    function buildRestUrl(path) {
+        if (!restBase) {
+            return '';
+        }
+
+        return restBase.replace(/\/?$/, '/') + path.replace(/^\//, '');
+    }
+
     // Päivittää palvelukategoriat
     $('#paikkakunta').change(function() {
         var paikkakunta_id = $(this).val();
         if (paikkakunta_id) {
             $('#palvelukategoria').html('<option value="">Ladataan...</option>');
-            $.get(ajax_params.rest_url + 'wp/v2/palvelukategoriat')
+            var categoriesEndpoint = buildRestUrl('wp/v2/palvelukategoriat');
+            if (!categoriesEndpoint) {
+                $('#palvelukategoria').html('<option value="">Haku epäonnistui</option>');
+                return;
+            }
+            $.get(categoriesEndpoint)
                 .done(function(data) {
                     var options = '<option value="">Kaikki palvelukategoriat</option>';
                     if (data && data.length > 0) {
@@ -30,7 +46,12 @@ jQuery(document).ready(function($) {
         var palvelukategoria_id = $(this).val();
         if (palvelukategoria_id) {
             $('#service').html('<option value="">Ladataan...</option>');
-            $.get(ajax_params.rest_url + 'wp/v2/palvelut?filter[palvelukategoriat]=' + palvelukategoria_id)
+            var servicesEndpoint = buildRestUrl('wp/v2/palvelut?filter[palvelukategoriat]=' + palvelukategoria_id);
+            if (!servicesEndpoint) {
+                $('#service').html('<option value="">Haku epäonnistui</option>');
+                return;
+            }
+            $.get(servicesEndpoint)
                 .done(function(data) {
                     var options = '<option value="">Kaikki palvelut</option>';
                     if (data && data.length > 0) {
@@ -51,15 +72,17 @@ jQuery(document).ready(function($) {
     });
 
     // Google Maps API
-    fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=60.1699,24.9384&radius=5000&keyword=house%20painting&key=${ajax_params.google_maps_api_key}`)
-        .then(response => response.json())
-        .then(data => {
-            const top5 = data.results.slice(0, 5);
-            top5.forEach(place => {
-                $('#palveluntarjoajat').append(`
-                    <div>${place.name} - ${place.rating} ★</div>
-                `);
-            });
-        })
-        .catch(error => console.error('Virhe API-haussa:', error));
+    if (settings.google_maps_api_key) {
+        fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=60.1699,24.9384&radius=5000&keyword=house%20painting&key=${settings.google_maps_api_key}`)
+            .then(response => response.json())
+            .then(data => {
+                const top5 = (data.results || []).slice(0, 5);
+                top5.forEach(place => {
+                    $('#palveluntarjoajat').append(`
+                        <div>${place.name} - ${(place.rating || 'N/A')} ★</div>
+                    `);
+                });
+            })
+            .catch(error => console.error('Virhe API-haussa:', error));
+    }
 });
