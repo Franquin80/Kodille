@@ -15,11 +15,12 @@ if ($pagenow !== 'wp-login.php') {
 
     // TÄMÄ LADATAAN AINA (Shortcode tarvitsee sitä)
     // ✅ KORJATTU:
-require_once get_stylesheet_directory() . '/includes/google-places-helpers.php';
+    require_once get_stylesheet_directory() . '/includes/google-places-helpers.php';
 
     // TÄMÄ LADATAAN VAIN ADMIN-PUOLELLA
     if (is_admin()) {
-        require_once get_stylesheet_directory() . '/includes/palveluntarjoajahaku.php';        // Massatuonti (vain admin)
+        // Massatuonti (vain admin)
+        require_once get_stylesheet_directory() . '/includes/palveluntarjoajahaku.php';
     }
 }
 
@@ -90,10 +91,10 @@ add_shortcode('tuo_palveluntarjoajat', function ($atts) {
         
         if ($post_id) {
             
-            // 1. HAE TALLENNETUT ACF-KENTÄT
-            $phone = get_field('puhelinnumero', $post_id);
-            $website = get_field('kotisivu', $post_id); // Lisätty kotisivun haku
-            $services_field = get_field('tarjotut_palvelut', $post_id);
+            // 1. HAE TALLENNETUT ACF-KENTÄT (jos ACF on käytössä)
+            $phone = function_exists('get_field') ? get_field('puhelinnumero', $post_id) : '';
+            $website = function_exists('get_field') ? get_field('kotisivu', $post_id) : '';
+            $services_field = function_exists('get_field') ? get_field('tarjotut_palvelut', $post_id) : array();
             
             // 2. KÄSITTELE RELATIONSHIP-KENTÄT (TARJOTUT PALVELUT)
             $service_names = [];
@@ -151,9 +152,10 @@ add_action('wp_enqueue_scripts', function () {
             true
         );
         wp_localize_script('kodille-custom', 'kodilleAjax', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'rest_url' => esc_url_raw(rest_url()),
-            'nonce'    => wp_create_nonce('kodille_nonce'),
+            'ajax_url'             => admin_url('admin-ajax.php'),
+            'rest_url'             => esc_url_raw(rest_url()),
+            'nonce'                => wp_create_nonce('kodille_nonce'),
+            'google_maps_api_key'  => (defined('GOOGLE_MAPS_API_KEY') && GOOGLE_MAPS_API_KEY) ? GOOGLE_MAPS_API_KEY : '',
         ));
     }
 
