@@ -5,18 +5,10 @@
  */
 
 /* -------------------------------------------------
- * 0) Ladataan omat funktiot (KORJATTU)
- * ------------------------------------------------- */
-
-/* -------------------------------------------------
  * 0) Ladataan omat funktiot (KORJATTU JA OIKEA VERSIO)
  * ------------------------------------------------- */
 
-global $pagenow;
-// Ladataan tiedostot VAIN, JOS emme ole kirjautumis- tai salasanasivulla
-if ($pagenow !== 'wp-login.php') {
-
-// TÄMÄ LADATAAN AINA (Shortcode tarvitsee sitä)
+  // TÄMÄ LADATAAN AINA (Shortcode tarvitsee sitä)
 require_once get_stylesheet_directory() . '/includes/google-places-helpers.php';
 
 // TÄMÄ LADATAAN VAIN ADMIN-PUOLELLA
@@ -91,10 +83,10 @@ add_shortcode('tuo_palveluntarjoajat', function ($atts) {
         
         if ($post_id) {
             
-            // 1. HAE TALLENNETUT ACF-KENTÄT (jos ACF on käytössä)
-            $phone = function_exists('get_field') ? get_field('puhelinnumero', $post_id) : '';
-            $website = function_exists('get_field') ? get_field('kotisivu', $post_id) : '';
-            $services_field = function_exists('get_field') ? get_field('tarjotut_palvelut', $post_id) : array();
+            // 1. HAE TALLENNETUT ACF-KENTÄT
+            $phone = get_field('puhelinnumero', $post_id);
+            $website = get_field('kotisivu', $post_id); // Lisätty kotisivun haku
+            $services_field = get_field('tarjotut_palvelut', $post_id);
             
             // 2. KÄSITTELE RELATIONSHIP-KENTÄT (TARJOTUT PALVELUT)
             $service_names = [];
@@ -152,10 +144,9 @@ add_action('wp_enqueue_scripts', function () {
             true
         );
         wp_localize_script('kodille-custom', 'kodilleAjax', array(
-            'ajax_url'             => admin_url('admin-ajax.php'),
-            'rest_url'             => esc_url_raw(rest_url()),
-            'nonce'                => wp_create_nonce('kodille_nonce'),
-            'google_maps_api_key'  => (defined('GOOGLE_MAPS_API_KEY') && GOOGLE_MAPS_API_KEY) ? GOOGLE_MAPS_API_KEY : '',
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'rest_url' => esc_url_raw(rest_url()),
+            'nonce'    => wp_create_nonce('kodille_nonce'),
         ));
     }
 
